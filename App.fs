@@ -12,6 +12,7 @@ let main argv =
         GetAll = Db.getPeople
         Create = Db.createPerson
         Update = Db.updatePerson
+        Delete = Db.deletePerson
     }
     startWebServer defaultConfig personWebPart
     0 // return an integer exit code
