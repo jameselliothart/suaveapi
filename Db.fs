@@ -23,3 +23,14 @@ module Db =
         }
         peopleStorage.Add(id, newPerson)
         newPerson
+
+    let updatePersonById personId personToBeUpdated =
+        match peopleStorage.TryGetValue(personId) with
+        | (true, person) ->
+            let updatedPerson = { person with Name = personToBeUpdated.Name; Age = personToBeUpdated.Age; Email = personToBeUpdated.Email}
+            peopleStorage.[personId] <- updatedPerson
+            Some updatedPerson
+        | (false, _) -> None
+
+    let updatePerson personToBeUpdated =
+        updatePersonById personToBeUpdated.Id personToBeUpdated
