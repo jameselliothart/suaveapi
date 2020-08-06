@@ -10,6 +10,7 @@ open suaveapi.Db
 let main argv =
     let personWebPart = rest "people" {
         GetAll = Db.getPeople
+        Create = Db.createPerson
     }
     startWebServer defaultConfig personWebPart
     0 // return an integer exit code
