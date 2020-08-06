@@ -15,6 +15,7 @@ let main argv =
         Delete = Db.deletePerson
         GetById = Db.getPerson
         UpdateById = Db.updatePersonById
+        IsExists = Db.isPersonExists
     }
     startWebServer defaultConfig personWebPart
     0 // return an integer exit code

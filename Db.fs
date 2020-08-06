@@ -42,3 +42,5 @@ module Db =
         match peopleStorage.TryGetValue(id) with
         | (true, person) -> Some person
         | (false, _) -> None
+
+    let isPersonExists = peopleStorage.ContainsKey

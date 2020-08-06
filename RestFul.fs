@@ -35,6 +35,7 @@ module RestFul =
         Delete : int -> unit
         GetById : int -> 'a option
         UpdateById : int -> 'a -> 'a option
+        IsExists : int -> bool
     }
 
     let rest resourceName resource =
@@ -57,6 +58,9 @@ module RestFul =
         let updateResourceById id =
             request (getResourceFromReq >> (resource.UpdateById id) >> handleResource badRequest)
 
+        let isResourceExists id =
+            if resource.IsExists id then OK "" else NOT_FOUND ""
+
         choose [
             path resourcePath >=> choose [
                 GET >=> getAll
@@ -68,4 +72,5 @@ module RestFul =
             DELETE >=> pathScan resourceIdPath deleteResourceById
             GET >=> pathScan resourceIdPath getResourceById
             PUT >=> pathScan resourceIdPath updateResourceById
+            HEAD >=> pathScan resourceIdPath isResourceExists
         ]
