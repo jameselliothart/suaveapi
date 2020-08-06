@@ -3,8 +3,13 @@
 open System
 open Suave.Web
 open Suave.Successful
+open suaveapi.Rest
+open suaveapi.Db
 
 [<EntryPoint>]
 let main argv =
-    startWebServer defaultConfig (OK "Hello, Suave!")
+    let personWebPart = rest "people" {
+        GetAll = Db.getPeople
+    }
+    startWebServer defaultConfig personWebPart
     0 // return an integer exit code
