@@ -33,6 +33,8 @@ module RestFul =
         Create : 'a -> 'a
         Update : 'a -> 'a option
         Delete : int -> unit
+        GetById : int -> 'a option
+        UpdateById : int -> 'a -> 'a option
     }
 
     let rest resourceName resource =
@@ -50,6 +52,11 @@ module RestFul =
             resource.Delete id
             NO_CONTENT
 
+        let getResourceById =
+            resource.GetById >> handleResource (NOT_FOUND "Resource not found")
+        let updateResourceById id =
+            request (getResourceFromReq >> (resource.UpdateById id) >> handleResource badRequest)
+
         choose [
             path resourcePath >=> choose [
                 GET >=> getAll
@@ -59,4 +66,6 @@ module RestFul =
                     request (getResourceFromReq >> resource.Update >> handleResource badRequest)
             ]
             DELETE >=> pathScan resourceIdPath deleteResourceById
+            GET >=> pathScan resourceIdPath getResourceById
+            PUT >=> pathScan resourceIdPath updateResourceById
         ]

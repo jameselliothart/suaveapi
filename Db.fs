@@ -37,3 +37,8 @@ module Db =
 
     let deletePerson personId =
         peopleStorage.Remove(personId) |> ignore
+
+    let getPerson id =
+        match peopleStorage.TryGetValue(id) with
+        | (true, person) -> Some person
+        | (false, _) -> None
